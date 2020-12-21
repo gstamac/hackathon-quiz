@@ -1473,33 +1473,6 @@
   resolved "https://registry.yarnpkg.com/@emotion/unitless/-/unitless-0.7.5.tgz#77211291c1900a700b8a78cfafda3160d76949ed"
   integrity sha512-OWORNpfjMsSSUBVrRBVGECkhWcULOAJz9ZW8uK9qgxD+87M7jHRcvh/A96XXNhXTLmKcoYSQtBEX7lHMO7YRwg==
 
-"@globalid/attestations-types@^1.24.0":
-  version "1.25.0"
-  resolved "https://registry.yarnpkg.com/@globalid/attestations-types/-/attestations-types-1.25.0.tgz#d146cca0b830898766ae0a3f355f6d380671fd18"
-  integrity sha512-7kWXh1h3tjGlP7iscipGsrEGVNLLNFPCsAHbNU6gJZo8A5Wdn3GF7GMRkGHbaVstif25lJvF3ZfWS1zH4cH5jA==
-
-"@globalid/consent-types@^1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@globalid/consent-types/-/consent-types-1.16.0.tgz#90fcbb25d40169178a62b73259629cc82af918cd"
-  integrity sha512-dFD8cr2+75qcvbpInM6mtbwg8EYdurLy941BPJVlaMZyKcXwr6oGaAWm0gKOVyWK6cmxkq7TEIDXgG5HUlhqZg==
-
-"@globalid/contacts-service-sdk@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@globalid/contacts-service-sdk/-/contacts-service-sdk-2.0.5.tgz#591c04b2ce59c65e33dd6665c1e17b167c5a58e4"
-  integrity sha512-LrxRg8PkY5ZGggPd9S7SUk9+DmMzH9AUbDEaYVFPd7882QGkrZU+vQsY0BVlmjPTG7LkgIvnvP0JZLnkeEPgRA==
-  dependencies:
-    axios "^0.19.2"
-
-"@globalid/design-system@1.0.0-alpha.4":
-  version "1.0.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/@globalid/design-system/-/design-system-1.0.0-alpha.4.tgz#92e7b484b3e21eec7ae4b6dfddc4f08c654dda2c"
-  integrity sha512-a8oQOl3p9MsPZgTVe3j8KtgrfViOIX80qaqWznGiHYK/BPU0wI4AiAVrlMhvWPfSenX1GTxGIcyrOboFhS5nAA==
-
-"@globalid/design-tokens@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@globalid/design-tokens/-/design-tokens-0.0.7.tgz#5291937f3bd972f79b0a647adf897995b23bdffe"
-  integrity sha512-R99PbaHfLzsd2e1f/vLPpINhBe9RRXX48PEQnh551+HstQcWiAR7+z0YpXCof1sbItwdS7jMr4dHoUEm2BdL/A==
-
 "@globalid/eslint-plugin@^1.0.0-alpha-6":
   version "1.0.0-alpha-6"
   resolved "https://registry.yarnpkg.com/@globalid/eslint-plugin/-/eslint-plugin-1.0.0-alpha-6.tgz#69b421a5432d4ce534b40bd4b3f222a527f78590"
@@ -1515,39 +1488,6 @@
     eslint-plugin-react "^7.17.0"
     eslint-plugin-unicorn "^18.0.1"
     requireindex "~1.1.0"
-
-"@globalid/group-service-sdk@^0.0.41":
-  version "0.0.41"
-  resolved "https://registry.yarnpkg.com/@globalid/group-service-sdk/-/group-service-sdk-0.0.41.tgz#eaaf9b1a248f563ed9d291317aa8be8be322eba9"
-  integrity sha512-6BATSlcdhy5fwJI6CXKT8yJn3BeFHVvzZyW8OZuEp3C86GQd0ysTxmfnq8PJr3OrcQwVlNO5m7pM8s7CaCUnPQ==
-  dependencies:
-    axios "^0.21.0"
-
-"@globalid/identity-namespace-service-sdk@^1.2.18":
-  version "1.2.18"
-  resolved "https://registry.yarnpkg.com/@globalid/identity-namespace-service-sdk/-/identity-namespace-service-sdk-1.2.18.tgz#4bb4a7c4c780903e470bdb6f9de746218780f4be"
-  integrity sha512-Czshue0z7Jv3+mNCgBPiEFilmuDddYTXm8bO/+kzAsRINR2T8/3IUTWWS8iXWpoWgqEsixsrfeVxjpnImoUzeg==
-  dependencies:
-    axios "^0.20.0"
-
-"@globalid/identity-namespace-service-types@^1.21.0":
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/@globalid/identity-namespace-service-types/-/identity-namespace-service-types-1.21.0.tgz#5ced20dfd459851fee7e9ab0b3034436c57a699e"
-  integrity sha512-XOVgoYPFHk1kEeTGyQnACVggaHTowfqGh4jlIzBFFSIGTwJ++5mpjPJe2fFAYJPmbctSaVQGGN4XPnTuUYCUgg==
-
-"@globalid/keystore-service-sdk@^1.0.13":
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/@globalid/keystore-service-sdk/-/keystore-service-sdk-1.0.14.tgz#afbebc141789ec38475c0eb5402ae578bca237fd"
-  integrity sha512-W2+bjQVe+D7WOfrmfVnpiUBbCe24MwggyA8x9vd4G50VWdsxdcMBbm/VOk+0fWsPDR5D8AOHIyMSZhWwOiNpKQ==
-  dependencies:
-    axios "^0.20.0"
-
-"@globalid/messaging-service-sdk@^0.0.75":
-  version "0.0.75"
-  resolved "https://registry.yarnpkg.com/@globalid/messaging-service-sdk/-/messaging-service-sdk-0.0.75.tgz#283e91d3824046585070f361fea86f1bb4e99ad5"
-  integrity sha512-gfEKl9OlqDBmJGW7CStEq17ukuOiSpWRE62CcM6Lo+4LuQXCV55o6mPBJ5qnmhUBhH+Jh0027mzzGssZBtLqmw==
-  dependencies:
-    axios "^0.21.0"
 
 "@hapi/address@2.x.x":
   version "2.1.4"
@@ -3886,24 +3826,10 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.0.tgz#a17b3a8ea811060e74d47d306122400ad4497ae2"
   integrity sha512-3YDiu347mtVtjpyV3u5kVqQLP242c06zwDOgpeRnybmXlYYsLbtTrUBUm8i8srONt+FWobl5aibnU1030PeeuA==
 
-axios@^0.19.2:
-  version "0.19.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
-  integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
-  dependencies:
-    follow-redirects "1.5.10"
-
 axios@^0.20.0:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
   integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
-  dependencies:
-    follow-redirects "^1.10.0"
-
-axios@^0.21.0:
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.0.tgz#26df088803a2350dff2c27f96fef99fe49442aca"
-  integrity sha512-fmkJBknJKoZwem3/IKSSLpkdNXZeBu5Q7GA/aRsr2btgrptmSCxi2oFjZHqGdK9DoTil9PIHlPIZw2EcRJXRvw==
   dependencies:
     follow-redirects "^1.10.0"
 
@@ -5540,7 +5466,7 @@ debug@2, debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.0, debug@^2.6.8, de
   dependencies:
     ms "2.0.0"
 
-debug@3.1.0, debug@=3.1.0:
+debug@3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-3.1.0.tgz#5bb5a0672628b64149566ba16819e61518c67261"
   integrity sha512-OX8XqP7/1a9cqkxYw2yXss15f26NKWBpDXQd0/uK/KPqdQhxbPa994hnzjcE2VqQpDslf55723cKPUOGSmMY3g==
@@ -6931,13 +6857,6 @@ flush-write-stream@^1.0.0:
   dependencies:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
-
-follow-redirects@1.5.10:
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
-  integrity sha512-0V5l4Cizzvqt5D44aTXbFZz+FtyXV1vrDN6qrelxtfYQKW0KO0W2T/hkE8xvGa/540LkZlkaUjO4ailYTFtHVQ==
-  dependencies:
-    debug "=3.1.0"
 
 follow-redirects@^1.0.0:
   version "1.12.1"
