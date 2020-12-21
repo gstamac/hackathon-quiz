@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppStoreLinks should render links to app store 1`] = `
+<div>
+  <div
+    class="makeStyles-getTheAppLinks-1"
+  >
+    <a
+      href="https://apps.apple.com/us/app/globalid-portable-identity/id1439340119"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="Download app from Apple app store"
+        src="ios_store.svg"
+      />
+    </a>
+    <a
+      href="https://play.google.com/store/apps/details?id=net.globalid"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <img
+        alt="Download app from Google App store"
+        src="google_play_store.svg"
+      />
+    </a>
+  </div>
+</div>
+`;

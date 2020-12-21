@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AppStoreButtons should render app store links 1`] = `
+<div>
+  <div
+    class="makeStyles-appStoreLinks-1"
+    data-testid="app-store-links"
+  >
+    <a
+      href="https://apps.apple.com/us/app/globalid-portable-identity/id1439340119"
+    >
+      <img
+        alt="IOS appstore"
+        src="ios_appstore_btn.png"
+      />
+    </a>
+    <a
+      href="https://play.google.com/store/apps/details?id=net.globalid"
+    >
+      <img
+        alt="Android appstore"
+        src="android_appstore_btn.png"
+      />
+    </a>
+  </div>
+</div>
+`;
