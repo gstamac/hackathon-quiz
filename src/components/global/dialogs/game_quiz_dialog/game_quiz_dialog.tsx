@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'RootType'
 import { setGameQuizFormState } from '../../../../store/ui_slice'
 import { CustomFieldDefinition } from '../../../interfaces'
+import { CheckboxOffIcon, CheckboxOnIcon } from '../../icons'
 import { FormDialog } from '../form_dialog'
 import { useStyles } from './styles'
 
@@ -39,21 +40,30 @@ export const GameQuizDialog: React.FC = () => {
       label={'1. Option'}
     />
     <Checkbox
-      fieldId={`check${i}_1`}/>
+      fieldId={`check${i}_1`}
+      checkedIcon={<CheckboxOnIcon/>}
+      icon={<CheckboxOffIcon/>}
+    />
     <TextInput
       className={classes.option}
       fieldId={`option${i}_2`}
       label={'2. Option'}
     />
     <Checkbox
-      fieldId={`check${i}_2`}/>
+      fieldId={`check${i}_2`}
+      checkedIcon={<CheckboxOnIcon/>}
+      icon={<CheckboxOffIcon/>}
+    />
     <TextInput
       className={classes.option}
       fieldId={`option${i}_3`}
       label={'3. Option'}
     />
     <Checkbox
-      fieldId={`check${i}_3`}/>
+      fieldId={`check${i}_3`}
+      checkedIcon={<CheckboxOnIcon/>}
+      icon={<CheckboxOffIcon/>}
+    />
   </>)
 
   return <FormDialog
