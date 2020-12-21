@@ -50,5 +50,6 @@ export const useStyles = makeStyles((theme: Theme) =>
       borderRadius: '50%',
       border: `1px solid ${theme.palette.customColors.electricBlue}`,
     },
+    selected: {}
   }),
 )

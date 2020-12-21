@@ -39,14 +39,16 @@ interface QuestionsCounterProps {
   numberOfQuestions: number
   onSelect: (questionNumber: number) => void
   addQuestion: () => void
+  selected: boolean
 }
 
 export const QuestionsCounter: React.FC<QuestionsCounterProps> = ({
   numberOfQuestions,
   onSelect,
   addQuestion,
+  selected,
 }: QuestionsCounterProps) => {
-  const classes = useStyles()
+  const classes = useStyles({ selected })
 
   return <div className={classes.quizQuestionList}>
     {range(numberOfQuestions).map((i: number) => (
@@ -59,7 +61,7 @@ export const QuestionsCounter: React.FC<QuestionsCounterProps> = ({
 export const GameQuizDialog: React.FC = () => {
   const formOpen = useSelector((root: RootState) => root.ui.gameQuizFormOpen)
   const dispatch = useDispatch()
-  const classes = useStyles()
+  const classes = useStyles({})
 
   const formId: string = 'quiz-form'
 
@@ -161,6 +163,7 @@ export const GameQuizDialog: React.FC = () => {
       numberOfQuestions={numberOfQuestions}
       onSelect={(questionNumber) => setCurrentQuestion(questionNumber)}
       addQuestion={addQuestion}
+      selected=
     />
     </FormDialog>
 }
