@@ -1,5 +1,4 @@
 import { KeyEvent } from './../../../../constants'
-import { GameManager } from './../../../../services/command_handlers/game_manager'
 import { useState, KeyboardEvent, ChangeEvent, useEffect, useRef, useCallback, RefObject } from 'react'
 import { Theme, useTheme } from '@material-ui/core'
 import { SendComponentState, MessageInputHooksProps, ComposerProps, MessageStates, MessageInputHookResult } from './interfaces'
@@ -14,8 +13,7 @@ import { trimTextLeftAndRightSideWhiteSpaces } from './helpers'
 import { getString, sendImageToChannel, sendMessageToChannel } from '../../../../utils'
 import { sendTypingNotification } from '../../../../services/api'
 import { store } from '../../../../store'
-import { Stack } from '../../../../services/stack/stack'
-import { setGameQuizFormState } from '../../../../store/ui_slice'
+import { openGameForm } from '../../../../store/ui_slice'
 
 const createStates = (theme: Theme): MessageStates => {
   const { electricBlue, white, brightGray } = theme.palette.customColors
@@ -70,7 +68,7 @@ export const sentMessage = (channel_id: string, gid_uuid: string, encryptedChann
 
             if (channel)
             {
-              store.dispatch(setGameQuizFormState(true))
+              store.dispatch(openGameForm({key: channel_id, value: true}))
             }
           }
 

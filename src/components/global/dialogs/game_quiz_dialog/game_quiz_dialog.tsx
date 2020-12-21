@@ -1,23 +1,37 @@
 import { Button } from '@material-ui/core'
 import { TextInput, Checkbox, PrimaryButton, ButtonState, updateMultipleValidators, partiallyUpdateValueObject } from 'globalid-react-ui'
+import { isEmpty } from 'lodash'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'RootType'
-import { setGameQuizFormState } from '../../../../store/ui_slice'
+import styled from 'styled-components'
+import { CreateAnswerDto, createGame, CreateGameDto, CreateQuestionDto } from '../../../../services/api/game_api'
+import { closeGameForm } from '../../../../store/ui_slice'
 import { CustomFieldDefinition } from '../../../interfaces'
 import { CheckboxOffIcon, CheckboxOnIcon } from '../../icons'
 import { FormDialog } from '../form_dialog'
+import { submitGameForm } from './helper'
 import { useStyles } from './styles'
 
 const quiz: CustomFieldDefinition<{}> = {
-  question0: ['is_required'],
-  option0_0: [],
-  option0_1: [],
-  option0_2: [],
-  check0_0: [],
-  check0_1: [],
-  check0_2: [],
+  question_0: ['is_required'],
+  option_0_0: [],
+  option_0_1: [],
+  option_0_2: [],
+  check_0_0: [],
+  check_0_1: [],
+  check_0_2: [],
 }
+
+const Option = styled.div`
+  margin-left: 16px;
+  margin-top: 24px;
+  display: flex;
+
+  .MuiFormControl-root {
+    width: 100%;
+  }
+`
 
 interface QuizFormQuestionSectionProps {
   questionNumber: number
@@ -40,13 +54,15 @@ interface QuestionsState {
 }
 
 export const GameQuizDialog: React.FC = () => {
-  const formOpen = useSelector((root: RootState) => root.ui.gameQuizFormOpen)
+  const formOpen = useSelector((root: RootState) => root.ui.gameFormOpen)
   const dispatch = useDispatch()
   const classes = useStyles()
+  const entries = Object.entries(formOpen)
+  const isFormOpen = !isEmpty(entries)
 
   const formId: string = 'quiz-form'
-
-  console.log('quiz', quiz)
+  const channelId: string = isFormOpen ? entries[0][0]: ''
+  const channel = useSelector((root: RootState) => root.channels.channels[channelId]?.channel)
 
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(1)
 
@@ -54,9 +70,9 @@ export const GameQuizDialog: React.FC = () => {
     const nextQuestionNumber: number = numberOfQuestions
 
     const validators = range(3).reduce((o: object, answerNumber: number) => {
-      const optionKey: string = `option${nextQuestionNumber}_${answerNumber}`
-      const checkboxKey: string = `check${nextQuestionNumber}_${answerNumber}`
-    
+      const optionKey: string = `option_${nextQuestionNumber}_${answerNumber}`
+      const checkboxKey: string = `check_${nextQuestionNumber}_${answerNumber}`
+
       partiallyUpdateValueObject(formId, optionKey, {
         failed_validators: [],
         has_changed: false,
@@ -77,7 +93,7 @@ export const GameQuizDialog: React.FC = () => {
       }
     }, {})
 
-    const questionKey: string = `question${nextQuestionNumber}`
+    const questionKey: string = `question_${nextQuestionNumber}`
 
     updateMultipleValidators(formId, {
       ...validators,
@@ -90,7 +106,7 @@ export const GameQuizDialog: React.FC = () => {
       messages: [],
       value: '',
     })
-    
+
     setNumberOfQuestions((prev: number) => prev + 1)
   }
 
@@ -98,29 +114,22 @@ export const GameQuizDialog: React.FC = () => {
     questionNumber,
   }: QuizFormQuestionSectionProps): JSX.Element => {
 
-    const getAnswers = () => range(3).map((i: number) => {
-
-      console.log('fieldId text', `option${questionNumber}_${i}`)
-      console.log('fieldId check', `check${questionNumber}_${i}`)
-
-      return <div style={{display:'flex'}} key={`${questionNumber}_${i}`}>
-        <Checkbox
-          fieldId={`check${questionNumber}_${i}`}
-          checkedIcon={<CheckboxOnIcon/>}
-          icon={<CheckboxOffIcon/>}
-        />
-        <TextInput
-          className={classes.option}
-          fieldId={`option${questionNumber}_${i}`}
-          label={`${i + 1}. Option`}
-        />
-      </div>
-    })
+    const getAnswers = () => range(3).map((i: number) => <Option key={`${questionNumber}_${i}`}>
+      <Checkbox
+        fieldId={`check_${questionNumber}_${i}`}
+        checkedIcon={<CheckboxOnIcon/>}
+        icon={<CheckboxOffIcon/>}
+      />
+      <TextInput
+        fieldId={`option_${questionNumber}_${i}`}
+        label={`${i + 1}. Option`}
+      />
+    </Option>)
 
     return <>
       <TextInput
         className={questionNumber !== 0 ? classes.question: ''}
-        fieldId={`question${questionNumber}`}
+        fieldId={`question_${questionNumber}`}
         label={`${questionNumber+1}. Question`}
         fullWidth
       />
@@ -132,11 +141,11 @@ export const GameQuizDialog: React.FC = () => {
     className={classes.quiz}
     title={'Quiz Setup'}
     formSubtitle={'Setup your question and answers for the hackathon quiz!'}
-    onFormSubmit={async () => {}}
-    open={formOpen}
     formId={formId}
+    open={isFormOpen}
+    onFormSubmit={submitGameForm(channel, dispatch)}
     fieldDefinition={quiz}
-    onExit={() => dispatch(setGameQuizFormState(false))}
+    onExit={() => dispatch(closeGameForm())}
     fullScreenOnMobile={true}
   >
     {range(numberOfQuestions).map((questionNumber: number) => getQuizFormQuestionSection({ questionNumber }))}

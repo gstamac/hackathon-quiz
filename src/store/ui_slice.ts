@@ -1,25 +1,33 @@
+import { GeneralObject } from './../utils/interfaces'
+import { KeyValuePayload } from './interfaces'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface UIState {
-  gameQuizFormOpen: boolean
+  gameFormOpen: GeneralObject<boolean>
 }
 
 const initialState: UIState = {
-  gameQuizFormOpen: false,
+  gameFormOpen: {},
 }
 
 const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setGameQuizFormState (state: UIState, action: PayloadAction<boolean>): void {
-      state.gameQuizFormOpen = action.payload
+    openGameForm (state: UIState, action: PayloadAction<KeyValuePayload<boolean>>): void {
+      state.gameFormOpen = {
+        [action.payload.key]: action.payload.value,
+      }
+    },
+    closeGameForm (state: UIState): void {
+      state.gameFormOpen = {}
     },
   },
 })
 
 export const {
-  setGameQuizFormState,
+  openGameForm,
+  closeGameForm,
 } = uiSlice.actions
 
 export default uiSlice.reducer
