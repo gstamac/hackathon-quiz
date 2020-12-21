@@ -8,26 +8,29 @@ import { CheckboxOffIcon, CheckboxOnIcon } from '../../icons'
 import { FormDialog } from '../form_dialog'
 import { useStyles } from './styles'
 
-interface QuizForm {
-  question1: string
-  option1_1: string
-  option1_2: string
-  option1_3: string
-}
+const getQuizDef = () => {
+  let quiz : CustomFieldDefinition<{}> = {}
 
-const conversationFieldDefinitions: CustomFieldDefinition<QuizForm> = {
-  question1: [],
-  option1_1: [],
-  option1_2: [],
-  option1_3: [],
+  for (let i=0; i<1; i++){
+    quiz = Object.defineProperty(quiz, `question${i}`, { value: []})
+    quiz = Object.defineProperty(quiz, `option${i}_1`, { value: []})
+    quiz = Object.defineProperty(quiz, `option${i}_2`, { value: []})
+    quiz = Object.defineProperty(quiz, `option${i}_3`, { value: []})
+    quiz = Object.defineProperty(quiz, `check${i}_1`, { value: []})
+    quiz = Object.defineProperty(quiz, `check${i}_2`, { value: []})
+    quiz = Object.defineProperty(quiz, `check${i}_3`, { value: []})
+  }
+
+  return quiz
 }
 
 export const GameQuizDialog: React.FC = () => {
   const formOpen = useSelector((root: RootState) => root.ui.gameQuizFormOpen)
   const dispatch = useDispatch()
   const classes = useStyles()
+  const quizDef = getQuizDef()
 
-  const getQuizInputs = () => [...new Array(10)].map((_, i) => <>
+  const getQuizInputs = () => [...new Array(1)].map((_, i) => <>
     <TextInput
       className={i !== 0 ? classes.question: ''}
       fieldId={`question${i}`}
@@ -74,7 +77,7 @@ export const GameQuizDialog: React.FC = () => {
     open={formOpen}
     formId={'quiz-form'}
     fieldId='description'
-    fieldDefinition={conversationFieldDefinitions}
+    fieldDefinition={quizDef}
     onExit={() => dispatch(setGameQuizFormState(false))}
     fullScreenOnMobile={true}
   >

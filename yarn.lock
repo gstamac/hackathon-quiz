@@ -7332,9 +7332,9 @@ globalid-crypto@3.0.0:
     text-decoding "^1.0.0"
 
 globalid-react-ui@0.0.14-alpha-3:
-  version "0.0.14-alpha-13"
-  resolved "https://registry.yarnpkg.com/globalid-react-ui/-/globalid-react-ui-0.0.14-alpha-13.tgz#e8fecd8d8e1d2c2f7c4f1ed19b76fdf12f6188e1"
-  integrity sha512-olQGOaY6JXdnmXBXNes1aEol1tOqbr4jd46KquGC8gInsQIS42QCQL+UHb/ySk10whoTAAf8FOxYbIPsu0yuSg==
+  version "0.0.14-alpha-3"
+  resolved "https://registry.yarnpkg.com/globalid-react-ui/-/globalid-react-ui-0.0.14-alpha-3.tgz#ef63ed96cbf0a1300bd6bd2801d182dc2aecda3f"
+  integrity sha512-6yo0Lz9YbsayEkXzbuVGBpnj901KegNgMR1JopPSlE3Q0uonP8z9ImdPSu1BMDRtrw+R3yBEVM+7Xfubb5215w==
 
 globals@^11.1.0:
   version "11.12.0"
