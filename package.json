@@ -76,7 +76,9 @@
     "uuid": "^8.3.0"
   },
   "scripts": {
-    "start": "craco start --mode development",
+    "start": "serve -s build",
+    "heroku-postbuild": "npm run build",
+    "start-dev": "craco start --mode development",
     "start-secure": "set PORT=443&&set HTTPS=true&&craco start --mode development",
     "build": "craco --max_old_space_size=4096 build",
     "test": "craco test",
