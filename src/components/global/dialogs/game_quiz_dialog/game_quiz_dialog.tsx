@@ -35,8 +35,25 @@ interface QuestionState {
   numberOfAnswers: number
 }
 
-interface QuestionsState {
-  [key: number]: QuestionState | undefined
+interface QuestionsCounterProps {
+  numberOfQuestions: number
+  onSelect: (questionNumber: number) => void
+  addQuestion: () => void
+}
+
+export const QuestionsCounter: React.FC<QuestionsCounterProps> = ({
+  numberOfQuestions,
+  onSelect,
+  addQuestion,
+}: QuestionsCounterProps) => {
+  const classes = useStyles()
+
+  return <div className={classes.quizQuestionList}>
+    {range(numberOfQuestions).map((i: number) => (
+      <div className={classes.quizQuestionMarker} onClick={() => onSelect(i)}>{i + 1}</div>
+    ))}
+    <div onClick={() => addQuestion()} className={classes.quizQuestionAdd}>+</div>
+  </div>
 }
 
 export const GameQuizDialog: React.FC = () => {
@@ -48,6 +65,7 @@ export const GameQuizDialog: React.FC = () => {
 
   console.log('quiz', quiz)
 
+  const [currentQuestion, setCurrentQuestion] = useState<number>(0)
   const [numberOfQuestions, setNumberOfQuestions] = useState<number>(1)
 
   const addQuestion = () => {
@@ -92,11 +110,10 @@ export const GameQuizDialog: React.FC = () => {
     })
     
     setNumberOfQuestions((prev: number) => prev + 1)
+    setCurrentQuestion(nextQuestionNumber)
   }
 
-  const getQuizFormQuestionSection = ({
-    questionNumber,
-  }: QuizFormQuestionSectionProps): JSX.Element => {
+  const getQuizFormQuestionSection = (questionNumber: number): JSX.Element => {
 
     const getAnswers = () => range(3).map((i: number) => {
 
@@ -139,11 +156,11 @@ export const GameQuizDialog: React.FC = () => {
     onExit={() => dispatch(setGameQuizFormState(false))}
     fullScreenOnMobile={true}
   >
-    {range(numberOfQuestions).map((questionNumber: number) => getQuizFormQuestionSection({ questionNumber }))}
-    <Button
-      onClick={() => addQuestion()}
-    >
-      Add question
-    </Button>
-  </FormDialog>
+    {getQuizFormQuestionSection(currentQuestion)}
+    <QuestionsCounter
+      numberOfQuestions={numberOfQuestions}
+      onSelect={(questionNumber) => setCurrentQuestion(questionNumber)}
+      addQuestion={addQuestion}
+    />
+    </FormDialog>
 }
