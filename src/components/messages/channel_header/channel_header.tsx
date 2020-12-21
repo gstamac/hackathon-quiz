@@ -45,7 +45,7 @@ export const ChannelHeader = ({
   readOnly,
   hiddenMembers,
 }: ChannelHeaderProps): JSX.Element | null => {
-  const classes = useStyles()
+  const classes = useStyles({})
   const history = useHistory()
   const theme: Theme = useTheme()
 

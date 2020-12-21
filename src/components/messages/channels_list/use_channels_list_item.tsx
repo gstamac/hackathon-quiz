@@ -31,7 +31,7 @@ import { pushTo } from '../../../utils'
 export const useChannelsListItem = (channel: ChannelWithParticipantsAndParsedMessage | undefined): ChannelListItemHookResult | null => {
   const dispatch = useDispatch()
 
-  const { channelFirstAvatarStyle } = useStyles()
+  const { channelFirstAvatarStyle } = useStyles({})
 
   const history = useHistory()
 

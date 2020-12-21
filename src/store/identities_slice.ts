@@ -6,6 +6,7 @@ import {
 import {
   Identities,
   Identity,
+  IdentityType,
   PaginationMetaParams,
 } from '@globalid/identity-namespace-service-sdk'
 import {
@@ -55,7 +56,7 @@ export const fetchIdentities = createAsyncThunk(
       ...parameters,
       per_page: parameters.per_page ?? META_PER_PAGE,
       status: 'in_use',
-      type: 'individual',
+      type: IdentityType.Individual,
     })
   },
   {

@@ -17,7 +17,7 @@ export const ChannelHeaderBar: React.FC<ChannelHeaderBarProps> = ({
   showVideoCall,
 }: ChannelHeaderBarProps) => {
   const theme: Theme = useTheme()
-  const classes = useStyles()
+  const classes = useStyles({})
 
   return (
     <>
