@@ -40,7 +40,7 @@
     "fuse.js": "^6.4.1",
     "global": "^4.4.0",
     "globalid-crypto": "3.0.0",
-    "globalid-react-ui": "0.0.14-alpha-4",
+    "globalid-react-ui": "file://home/majster/Documents/globalid/globalid-react-ui/dist",
     "history": "^4.10.1",
     "lodash": "^4.17.20",
     "lottie-react": "^2.0.0",

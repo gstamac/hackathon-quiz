@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core'
-import { TextInput, Checkbox, PrimaryButton, ButtonState, updateMultipleValidators, partiallyUpdateValueObject } from 'globalid-react-ui'
+import { TextInput, Checkbox, PrimaryButton, ButtonState, removeField, updateMultipleValidators, partiallyUpdateValueObject } from 'globalid-react-ui'
 import { isEmpty } from 'lodash'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -110,6 +110,23 @@ export const GameQuizDialog: React.FC = () => {
     setNumberOfQuestions((prev: number) => prev + 1)
   }
 
+  const removeQuestion = () => {
+    const lastQuestionNumber: number = numberOfQuestions - 1
+
+    range(3).forEach((answerNumber: number) => {
+      const optionKey: string = `option_${lastQuestionNumber}_${answerNumber}`
+      const checkboxKey: string = `check_${lastQuestionNumber}_${answerNumber}`
+
+      removeField(formId, optionKey)
+      removeField(formId, checkboxKey)
+    }, {})
+
+    const questionKey: string = `question_${lastQuestionNumber}`
+    removeField(formId, questionKey)
+
+    setNumberOfQuestions((prev: number) => prev - 1)
+  }
+
   const getQuizFormQuestionSection = ({
     questionNumber,
   }: QuizFormQuestionSectionProps): JSX.Element => {
@@ -137,6 +154,11 @@ export const GameQuizDialog: React.FC = () => {
     </>
   }
 
+  const onExit = () => {
+    dispatch(closeGameForm())
+    setNumberOfQuestions(1)
+  }
+
   return <FormDialog
     className={classes.quiz}
     title={'Quiz Setup'}
@@ -145,14 +167,13 @@ export const GameQuizDialog: React.FC = () => {
     open={isFormOpen}
     onFormSubmit={submitGameForm(channel, dispatch)}
     fieldDefinition={quiz}
-    onExit={() => dispatch(closeGameForm())}
+    onExit={onExit}
     fullScreenOnMobile={true}
   >
     {range(numberOfQuestions).map((questionNumber: number) => getQuizFormQuestionSection({ questionNumber }))}
-    <Button
-      onClick={() => addQuestion()}
-    >
-      Add question
-    </Button>
+    <div className={classes.manageButtons}>
+      <Button onClick={() => removeQuestion()} variant='outlined' color='secondary' disabled={numberOfQuestions <= 1}>Remove question</Button>
+      <Button onClick={() => addQuestion()} variant='outlined' color='primary'>Add question</Button>
+    </div>
   </FormDialog>
 }
