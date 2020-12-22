@@ -16,14 +16,16 @@ export const App: React.FC = () => (
   <Provider store={store}>
     <MuiThemeProvider theme={mainTheme}>
       <StylesProvider injectFirst>
-        <Router history={history}>
-          <CssBaseline />
-          <ToastHandler />
-          <FullImageHandler />
-          <Routes />
-          <Initialize />
-          <GameQuizDialog />
-        </Router>
+        {// @ts-ignore
+          <Router history={history}>
+            <CssBaseline />
+            <ToastHandler />
+            <FullImageHandler />
+            <Routes />
+            <Initialize />
+            <GameQuizDialog />
+          </Router>
+        }
       </StylesProvider>
     </MuiThemeProvider>
   </Provider>
