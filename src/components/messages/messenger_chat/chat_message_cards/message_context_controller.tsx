@@ -11,6 +11,7 @@ import { useChatMessageHooks } from './message_grouping_hooks'
 import { useMessageState } from './use_message_state'
 import { TimestampTooltip } from '../timestamp_tooltip/timestamp_tooltip'
 import { MessageData } from '../../../../store/interfaces'
+import clsx from 'clsx'
 
 export const MessageContextController: React.FC<PropsWithChildren<BaseMessageCardProps>> = ({
   messageContext,
@@ -24,6 +25,7 @@ export const MessageContextController: React.FC<PropsWithChildren<BaseMessageCar
   isHiddenMember,
   children,
   hasOptions,
+  disabled,
 } : PropsWithChildren<BaseMessageCardProps>) => {
 
   const {
@@ -77,7 +79,9 @@ export const MessageContextController: React.FC<PropsWithChildren<BaseMessageCar
             <TimestampTooltip timestamp={timestampString} messageIsMine={iAmAuthor} showAvatar={showAvatar}>
               <div className={classes.textMessageContentContainer}>
                 {avatar}
-                <div className={classes.textMessageContent} onClick={resendMessage}>
+                <div className={clsx(classes.textMessageContent, {
+                  [classes.transparent]: disabled,
+                })} onClick={resendMessage}>
                   {resendingCircularProgress}
                   {children}
                 </div>

@@ -1,6 +1,6 @@
 import { MessageData } from './../../../../../store/interfaces'
 import { useCardViewStyles } from './styles'
-import { MessageCardElement, MessageTemplateButtonItem } from '@globalid/messaging-service-sdk'
+import { MessageCardElement, MessageTemplateButtonItem, MessageTemplateCardView } from '@globalid/messaging-service-sdk'
 import { ButtonState } from 'globalid-react-ui'
 
 export enum ButtonTypes {
@@ -21,6 +21,8 @@ export type CardViewMessageStyles = {
 
 export interface CardViewMessageContentProps extends MessageCardElement, CardViewMessageStyles {
   message: MessageData
+  disabled?: boolean
+  countdown_seconds?: number
 }
 
 export type CardViewButtonsType = (
@@ -61,4 +63,9 @@ export interface CardViewButtonProps extends CardViewMessageStyles {
   button: MessageTemplateButtonItem
   onClick: (params: MessageTemplateButtonItem) => void
   buttonElementsState: ButtonElementsState
+}
+
+export interface MessageTemplateCardViewExt extends MessageTemplateCardView{
+  disabled?: boolean
+  countdown_seconds?: number
 }

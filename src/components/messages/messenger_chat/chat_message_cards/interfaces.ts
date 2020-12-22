@@ -48,6 +48,7 @@ export interface BaseMessageCardProps<T = MessageData> {
   encryptedChannelSecret?: string
   isHiddenMember?: boolean
   hasOptions?: boolean
+  disabled?: boolean
 }
 
 export interface TextMessageCardProps extends BaseMessageCardProps<MessageDataParsed> {

@@ -25,8 +25,6 @@ const BASE_GAME_API_URL = 'https://hackathon-quiz-be.herokuapp.com'
 
 export const createGame = async (data: CreateGameDto): Promise<CreateGameDto> => {
   const access_token = await getValidToken()
-
-  console.log(access_token)
   const payload: CreateGameDto = {
     ...data,
     access_token,

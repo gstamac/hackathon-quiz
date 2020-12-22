@@ -53,7 +53,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       : 'row',
   },
   transparent: {
-    opacity: 0.5,
+    opacity: '0.5!important',
   },
   textMessageContent: {
     padding: theme.spacing(1.625, 2),

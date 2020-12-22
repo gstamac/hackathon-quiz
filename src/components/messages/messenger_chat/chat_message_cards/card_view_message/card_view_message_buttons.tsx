@@ -24,10 +24,11 @@ export const CardViewPrimaryButton: React.FC<CardViewButtonProps> =
     )
   }
 
-export const CardViewSecondaryButton: React.FC<CardViewButtonProps> = ({button, onClick, classes}: CardViewButtonProps) => (
+export const CardViewSecondaryButton: React.FC<CardViewButtonProps> = ({button, onClick, classes, buttonElementsState}: CardViewButtonProps) => (
   <Button
     variant='contained'
     color='secondary'
+    disabled={buttonElementsState.SECONDARY === ButtonState.DISABLED}
     className={classes.secondaryButton}
     onClick={() => onClick(button)}
   >

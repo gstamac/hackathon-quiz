@@ -77,7 +77,6 @@ export const CardViewMessageCardComponent: React.FC<BaseProps> = props => {
   // console.log(messageContent.elements)
   // const messageCardType: MessageCardType = messageContent.elements.buttons ?
   //   retrieveMessageCardTypeFromButtons(messageContent.elements.buttons) : MessageCardType.UNKNOWN
-
   return <CardViewMessageCard key={message.uuid} {...baseCardProps} />
 }
 

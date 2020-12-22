@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { MessageTemplateButtonItem, MessageTemplateCardView } from '@globalid/messaging-service-sdk'
-import { ButtonElementsState, ButtonTypes, UseCardViewMessageHookResult, MessageCardType } from './interfaces'
+import { MessageTemplateButtonItem } from '@globalid/messaging-service-sdk'
+import { ButtonElementsState, ButtonTypes, UseCardViewMessageHookResult, MessageCardType, MessageTemplateCardViewExt } from './interfaces'
 import { ButtonState, setToastError, setToastSuccess } from 'globalid-react-ui'
 import { retrieveMessageCardTypeFromLink } from '../helpers'
 import { useBooleanState } from '../../../../../hooks/use_boolean_state'
@@ -12,7 +12,6 @@ import { handleMeetingButtonClick } from './meeting_helpers'
 import { postAnswer } from '../../../../../services/api/game_api'
 import { isAxiosError, storeMessage } from '../../../../../utils'
 import { MessageData } from '../../../../../store/interfaces'
-
 export const handleAnswerClick = async (
   button: MessageTemplateButtonItem,
   message: MessageData,
@@ -21,6 +20,7 @@ export const handleAnswerClick = async (
   try {
     const link = button.cta_link
 
+    updateCard(message)
     await postAnswer(link)
     dispatch(setToastSuccess({
       title: 'Your answer has been sent!',
@@ -32,21 +32,15 @@ export const handleAnswerClick = async (
         title: error.response?.data.message,
       }))
     }
-  } finally {
-    updateCard(message)
   }
 }
 
 const updateCard = (message: MessageData): void => {
-  const content: MessageTemplateCardView = JSON.parse(message.content)
+  const content: MessageTemplateCardViewExt = JSON.parse(message.content)
 
-  const newContent: MessageTemplateCardView = {
+  const newContent: MessageTemplateCardViewExt = {
     ...content,
-    elements: {
-      ...content.elements,
-      primary_text: 'You have already answered this question.',
-      buttons: [],
-    },
+    disabled: true,
   }
 
   const newMessage: MessageData = {

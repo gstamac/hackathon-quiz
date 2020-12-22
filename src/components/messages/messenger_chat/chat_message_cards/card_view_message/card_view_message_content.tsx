@@ -1,4 +1,6 @@
-import React from 'react'
+/* eslint-disable complexity */
+import { ButtonState } from 'globalid-react-ui'
+import React, { useEffect, useRef, useState } from 'react'
 import CameraIcon from '../../../../../assets/icons/camera-grey.svg'
 import GroupIcon from '../../../../../assets/icons/group_icon.svg'
 import GameIcon from '../../../../../assets/icons/icon-poll.svg'
@@ -6,13 +8,54 @@ import mobileIcon from '../../../../../assets/icons/mobile-icon-white.svg'
 import { RejectInvitationDialog } from '../../../../global/dialogs/reject_invitation_dialog'
 import { retrieveMessageCardTypeFromButtons } from '../helpers'
 import { CardViewMessageButtonsWrapper } from './card_view_message_buttons_wrapper'
-import { CardViewMessageContentProps, MessageCardType } from './interfaces'
+import { ButtonElementsState, ButtonTypes, CardViewMessageContentProps, MessageCardType } from './interfaces'
 import { useCardViewMessage } from './use_card_view_message'
+const useInterval = (callback: ()=>void, delay: number): void => {
+  const savedCallback = useRef<()=>void>()
 
-export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({ icon, title_text, primary_text, secondary_text, buttons, classes, message }: CardViewMessageContentProps) => {
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback
+  }, [callback])
+
+  // Set up the interval.
+  useEffect(() => {
+    const id = setInterval(() => {
+      // @ts-ignore
+      savedCallback.current()
+    }, delay)
+
+    return () => clearInterval(id)
+  }, [delay])
+}
+
+export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({
+  icon,
+  title_text,
+  primary_text,
+  secondary_text,
+  buttons,
+  classes,
+  message,
+  disabled,
+  countdown_seconds,
+}: CardViewMessageContentProps) => {
   const { handleClickToButtons, buttonElementsState, closeRejectInvitationDialog, rejectInvitationDialogOpen, handleRejectInvitation } = useCardViewMessage(message)
 
   const messageCardType: MessageCardType = buttons || icon?.type ? retrieveMessageCardTypeFromButtons(buttons, icon?.type): MessageCardType.UNKNOWN
+
+  const [counter, setCounter] = useState(countdown_seconds ?? 0)
+
+  useEffect(() => {
+    if (countdown_seconds){
+      setCounter(countdown_seconds)
+    }
+  }, [countdown_seconds])
+
+  useInterval(() => {
+    if (counter !== 0)
+    {setCounter(counter - 1)}
+  }, 1000)
 
   const rightSideIconMap = {
     [MessageCardType.GROUP_INVITATION]: GroupIcon,
@@ -30,6 +73,12 @@ export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({ 
 
   const rightSideIcon: string = icon?.url ? icon.url : rightSideIconMap[messageCardType]
 
+  const buttonStates: ButtonElementsState = disabled ? {
+    [ButtonTypes.PRIMARY]: ButtonState.DISABLED,
+    [ButtonTypes.SECONDARY]: ButtonState.DISABLED,
+    [ButtonTypes.ADDITIONAL]: ButtonState.DISABLED,
+  } : buttonElementsState
+
   return (
     <div className={classes.cardViewMessageContent}>
       {icon && <div className={classes.cardViewIconWrapper}>
@@ -41,14 +90,14 @@ export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({ 
         <span className={classes.titleAndSecondaryText}>{title_text}</span>
       </div>}
       {primary_text && <div>
-        <span className={classes.primaryText}>{primary_text}</span>
+        <span className={classes.primaryText}>{primary_text}&nbsp;{counter !== 0 ? `${counter} seconds` : undefined}</span>
       </div>}
       {secondary_text && <div>
         <span className={classes.titleAndSecondaryText}>{secondary_text}</span>
       </div>}
 
       <CardViewMessageButtonsWrapper classes={classes} buttons={buttons} onClick={handleClickToButtons}
-        buttonElementsState={buttonElementsState} />
+        buttonElementsState={buttonStates} />
 
       <RejectInvitationDialog
         open={rejectInvitationDialogOpen}
