@@ -73,12 +73,10 @@ type BaseProps = BaseMessageCardProps<MessageData> & {message: MessageData, encr
 export const CardViewMessageCardComponent: React.FC<BaseProps> = props => {
   const {message, ...baseCardProps}: BaseProps = props
   const messageContent: MessageTemplateCardView = JSON.parse(message.content) as MessageTemplateCardView
-  const messageCardType: MessageCardType = messageContent.elements.buttons ?
-    retrieveMessageCardTypeFromButtons(messageContent.elements.buttons) : MessageCardType.UNKNOWN
 
-  // if (messageCardType === MessageCardType.UNKNOWN) {
-  //   return <UnsupportedMessageCard key={message.uuid} {...baseCardProps} />
-  // }
+  // console.log(messageContent.elements)
+  // const messageCardType: MessageCardType = messageContent.elements.buttons ?
+  //   retrieveMessageCardTypeFromButtons(messageContent.elements.buttons) : MessageCardType.UNKNOWN
 
   return <CardViewMessageCard key={message.uuid} {...baseCardProps} />
 }

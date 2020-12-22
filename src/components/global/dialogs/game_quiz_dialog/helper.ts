@@ -2,6 +2,7 @@ import { ThunkDispatch } from 'RootType'
 import { ChannelWithParticipantsAndParsedMessage } from './../../../../store/interfaces'
 import { InternalFormData, OnSubmit, setToastError, setToastSuccess } from 'globalid-react-ui'
 import { CreateQuestionDto, CreateAnswerDto, CreateGameDto, createGame } from '../../../../services/api/game_api'
+import { closeGameForm } from '../../../../store/ui_slice'
 // eslint-disable-next-line unicorn/consistent-function-scoping
 export const submitGameForm
 = (channel: ChannelWithParticipantsAndParsedMessage | undefined, dispatch: ThunkDispatch): OnSubmit =>
@@ -42,6 +43,7 @@ export const submitGameForm
         dispatch(setToastSuccess({
           title: 'New Game Created!',
         }))
+        dispatch(closeGameForm())
       } catch (error){
 
         dispatch(setToastError({

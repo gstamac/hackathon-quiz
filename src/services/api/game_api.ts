@@ -1,3 +1,4 @@
+import { store } from './../../store/store'
 import { getValidToken } from './../../components/auth/helpers'
 import axios, { AxiosResponse } from 'axios'
 export interface CreateParticipantAnswerDto {
@@ -36,4 +37,12 @@ export const createGame = async (data: CreateGameDto): Promise<CreateGameDto> =>
   )
 
   return response.data
+}
+
+export const postAnswer = async (link: string): Promise<any> => {
+  const participant = store.getState().identity.identity?.gid_name ?? ''
+
+  return axios.post(
+    `${link}${participant}`,
+  )
 }

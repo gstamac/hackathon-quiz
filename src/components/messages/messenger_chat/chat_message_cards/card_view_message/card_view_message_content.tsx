@@ -1,6 +1,7 @@
 import React from 'react'
 import CameraIcon from '../../../../../assets/icons/camera-grey.svg'
 import GroupIcon from '../../../../../assets/icons/group_icon.svg'
+import GameIcon from '../../../../../assets/icons/icon-poll.svg'
 import mobileIcon from '../../../../../assets/icons/mobile-icon-white.svg'
 import { RejectInvitationDialog } from '../../../../global/dialogs/reject_invitation_dialog'
 import { retrieveMessageCardTypeFromButtons } from '../helpers'
@@ -11,17 +12,19 @@ import { useCardViewMessage } from './use_card_view_message'
 export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({ icon, title_text, primary_text, secondary_text, buttons, classes, channelId }: CardViewMessageContentProps) => {
   const { handleClickToButtons, buttonElementsState, closeRejectInvitationDialog, rejectInvitationDialogOpen, handleRejectInvitation } = useCardViewMessage(channelId)
 
-  const messageCardType: MessageCardType = buttons ? retrieveMessageCardTypeFromButtons(buttons): MessageCardType.UNKNOWN
+  const messageCardType: MessageCardType = buttons || icon?.type ? retrieveMessageCardTypeFromButtons(buttons, icon?.type): MessageCardType.UNKNOWN
 
   const rightSideIconMap = {
     [MessageCardType.GROUP_INVITATION]: GroupIcon,
     [MessageCardType.MEETING_INVITATION]: CameraIcon,
+    [MessageCardType.GAME]: GameIcon,
     [MessageCardType.UNKNOWN]: mobileIcon,
   }
 
   const iconAltTextMap = {
     [MessageCardType.GROUP_INVITATION]: 'group-icon',
     [MessageCardType.MEETING_INVITATION]: 'camera-icon',
+    [MessageCardType.GAME]: 'game-icon',
     [MessageCardType.UNKNOWN]: 'mobile-icon',
   }
 
