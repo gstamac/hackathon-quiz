@@ -87,16 +87,17 @@ export const getChannelBeginningText = (channelType: ChannelType, combinedGidNam
 const cardTypeToSubstring: { [key: string]: string } = {
   [MessageCardType.GROUP_INVITATION]: 'groups/invitation',
   [MessageCardType.MEETING_INVITATION]: '/call/',
+  [MessageCardType.GAME]: '/games/',
 }
 
 export const checkMessageCardType = (buttons: MessageTemplateButtonItem[], messageCardType: string): boolean =>
   !!buttons?.every((button: MessageTemplateButtonItem) => button.cta_link.includes(cardTypeToSubstring[messageCardType]))
 
-export const retrieveMessageCardTypeFromButtons = (buttons: MessageTemplateButtonItem[]): MessageCardType => {
+export const retrieveMessageCardTypeFromButtons = (buttons?: MessageTemplateButtonItem[], iconType?: string): MessageCardType => {
   const type: MessageCardType | undefined =
-    Object.values(MessageCardType).find((messageCardType: MessageCardType) => checkMessageCardType(buttons, messageCardType))
+  buttons ? Object.values(MessageCardType).find((messageCardType: MessageCardType) => checkMessageCardType(buttons, messageCardType)): undefined
 
-  return type ?? MessageCardType.UNKNOWN
+  return type ?? iconType === 'HACKATON_ICON' ? MessageCardType.GAME : MessageCardType.UNKNOWN
 }
 
 export const retrieveMessageCardTypeFromLink = (link: string): MessageCardType => {

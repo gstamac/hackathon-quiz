@@ -46,6 +46,7 @@ export enum ButtonLinkType {
 export enum MessageCardType {
   GROUP_INVITATION = 'group_invitation',
   MEETING_INVITATION = 'meeting_invitation',
+  GAME = 'game',
   UNKNOWN = 'unknown',
 }
 

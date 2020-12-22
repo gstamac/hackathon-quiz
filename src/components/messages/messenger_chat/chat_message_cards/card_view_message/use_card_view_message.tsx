@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { MessageTemplateButtonItem } from '@globalid/messaging-service-sdk'
 import { ButtonElementsState, ButtonTypes, UseCardViewMessageHookResult, MessageCardType } from './interfaces'
-import { ButtonState } from 'globalid-react-ui'
+import { ButtonState, setToastError, setToastSuccess } from 'globalid-react-ui'
 import { retrieveMessageCardTypeFromLink } from '../helpers'
 import { useBooleanState } from '../../../../../hooks/use_boolean_state'
 import { BooleanState } from '../../../../../hooks/interfaces'
@@ -9,6 +9,29 @@ import { useDispatch } from 'react-redux'
 import { ThunkDispatch } from '../../../../../store'
 import { handleRejectInvitation as handleRejectInvitationHelper, handleInvitationButtonClick } from './group_invitation_helpers'
 import { handleMeetingButtonClick } from './meeting_helpers'
+import { postAnswer } from '../../../../../services/api/game_api'
+import { isAxiosError } from '../../../../../utils'
+
+export const handleAnswerClick = async (
+  button: MessageTemplateButtonItem,
+  dispatch: ThunkDispatch,
+): Promise<void> => {
+  try {
+    const link = button.cta_link
+
+    await postAnswer(link)
+    dispatch(setToastSuccess({
+      title: 'Your answer has been sent!',
+    }))
+  } catch (error) {
+    if (isAxiosError(error))
+    {
+      dispatch(setToastError({
+        title: error.response?.data.message,
+      }))
+    }
+  }
+}
 
 export const useCardViewMessage = (channelId: string): UseCardViewMessageHookResult => {
   const [rejectInvitationDialogOpen, openRejectInvitationDialog, closeRejectInvitationDialog]: BooleanState = useBooleanState(false)
@@ -30,6 +53,8 @@ export const useCardViewMessage = (channelId: string): UseCardViewMessageHookRes
       handleInvitationButtonClick(button, setInvitationUuid, dispatch, openRejectInvitationDialog),
     [MessageCardType.MEETING_INVITATION]:  async (button: MessageTemplateButtonItem) =>
       handleMeetingButtonClick(channelId, button, dispatch),
+    [MessageCardType.GAME]:  async (button: MessageTemplateButtonItem) =>
+      handleAnswerClick(button, dispatch),
   }
 
   const handleClickToButtons = async (button: MessageTemplateButtonItem): Promise<void> => {
