@@ -7266,8 +7266,10 @@ globalid-crypto@3.0.0:
     lodash "^4.17.4"
     text-decoding "^1.0.0"
 
-"globalid-react-ui@file:../../globalid-react-ui/dist":
-  version "0.0.0"
+globalid-react-ui@0.0.14-alpha-5:
+  version "0.0.14-alpha-5"
+  resolved "https://registry.yarnpkg.com/globalid-react-ui/-/globalid-react-ui-0.0.14-alpha-5.tgz#400bf840726ffb1833c9612c54f4b5e0c714de16"
+  integrity sha512-A38htXHD1oyD5xUT6PKHx4UqCYLe1WWJ30gujBKrVWtvfDBewK1YA+oOJqG3bHPKX2pN4oZSaABFvhMrdASn7A==
 
 globals@^11.1.0:
   version "11.12.0"

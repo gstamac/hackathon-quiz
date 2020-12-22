@@ -1,5 +1,5 @@
 import { Button } from '@material-ui/core'
-import { TextInput, Checkbox, PrimaryButton, ButtonState, removeField, updateMultipleValidators, partiallyUpdateValueObject } from 'globalid-react-ui'
+import { TextInput, Checkbox, PrimaryButton, ButtonState, removeField, updateMultipleValidators, partiallyUpdateValueObject, InternalFormData } from 'globalid-react-ui'
 import { isEmpty } from 'lodash'
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -154,6 +154,11 @@ export const GameQuizDialog: React.FC = () => {
     </>
   }
 
+  const onSubmit = async (formData: InternalFormData) => {
+    submitGameForm(channel, dispatch)(formData)
+    setNumberOfQuestions(1)
+  }
+
   const onExit = () => {
     dispatch(closeGameForm())
     setNumberOfQuestions(1)
@@ -165,7 +170,7 @@ export const GameQuizDialog: React.FC = () => {
     formSubtitle={'Setup your question and answers for the hackathon quiz!'}
     formId={formId}
     open={isFormOpen}
-    onFormSubmit={submitGameForm(channel, dispatch)}
+    onFormSubmit={onSubmit}
     fieldDefinition={quiz}
     onExit={onExit}
     fullScreenOnMobile={true}
