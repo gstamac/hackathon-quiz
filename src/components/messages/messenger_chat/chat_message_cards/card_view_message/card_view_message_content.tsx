@@ -9,8 +9,8 @@ import { CardViewMessageButtonsWrapper } from './card_view_message_buttons_wrapp
 import { CardViewMessageContentProps, MessageCardType } from './interfaces'
 import { useCardViewMessage } from './use_card_view_message'
 
-export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({ icon, title_text, primary_text, secondary_text, buttons, classes, channelId }: CardViewMessageContentProps) => {
-  const { handleClickToButtons, buttonElementsState, closeRejectInvitationDialog, rejectInvitationDialogOpen, handleRejectInvitation } = useCardViewMessage(channelId)
+export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({ icon, title_text, primary_text, secondary_text, buttons, classes, message }: CardViewMessageContentProps) => {
+  const { handleClickToButtons, buttonElementsState, closeRejectInvitationDialog, rejectInvitationDialogOpen, handleRejectInvitation } = useCardViewMessage(message)
 
   const messageCardType: MessageCardType = buttons || icon?.type ? retrieveMessageCardTypeFromButtons(buttons, icon?.type): MessageCardType.UNKNOWN
 

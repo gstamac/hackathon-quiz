@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { MessageTemplateButtonItem } from '@globalid/messaging-service-sdk'
+import { MessageTemplateButtonItem, MessageTemplateCardView } from '@globalid/messaging-service-sdk'
 import { ButtonElementsState, ButtonTypes, UseCardViewMessageHookResult, MessageCardType } from './interfaces'
 import { ButtonState, setToastError, setToastSuccess } from 'globalid-react-ui'
 import { retrieveMessageCardTypeFromLink } from '../helpers'
@@ -10,10 +10,12 @@ import { ThunkDispatch } from '../../../../../store'
 import { handleRejectInvitation as handleRejectInvitationHelper, handleInvitationButtonClick } from './group_invitation_helpers'
 import { handleMeetingButtonClick } from './meeting_helpers'
 import { postAnswer } from '../../../../../services/api/game_api'
-import { isAxiosError } from '../../../../../utils'
+import { isAxiosError, storeMessage } from '../../../../../utils'
+import { MessageData } from '../../../../../store/interfaces'
 
 export const handleAnswerClick = async (
   button: MessageTemplateButtonItem,
+  message: MessageData,
   dispatch: ThunkDispatch,
 ): Promise<void> => {
   try {
@@ -30,10 +32,32 @@ export const handleAnswerClick = async (
         title: error.response?.data.message,
       }))
     }
+  } finally {
+    updateCard(message)
   }
 }
 
-export const useCardViewMessage = (channelId: string): UseCardViewMessageHookResult => {
+const updateCard = (message: MessageData): void => {
+  const content: MessageTemplateCardView = JSON.parse(message.content)
+
+  const newContent: MessageTemplateCardView = {
+    ...content,
+    elements: {
+      ...content.elements,
+      primary_text: 'You have already answered this question.',
+      buttons: [],
+    },
+  }
+
+  const newMessage: MessageData = {
+    ...message,
+    content: JSON.stringify(newContent),
+  }
+
+  storeMessage(message.channel_id, newMessage)
+}
+
+export const useCardViewMessage = (message: MessageData): UseCardViewMessageHookResult => {
   const [rejectInvitationDialogOpen, openRejectInvitationDialog, closeRejectInvitationDialog]: BooleanState = useBooleanState(false)
   const [invitationUuid, setInvitationUuid] = useState<string>('')
 
@@ -52,9 +76,9 @@ export const useCardViewMessage = (channelId: string): UseCardViewMessageHookRes
     [MessageCardType.GROUP_INVITATION]:  async (button: MessageTemplateButtonItem) =>
       handleInvitationButtonClick(button, setInvitationUuid, dispatch, openRejectInvitationDialog),
     [MessageCardType.MEETING_INVITATION]:  async (button: MessageTemplateButtonItem) =>
-      handleMeetingButtonClick(channelId, button, dispatch),
+      handleMeetingButtonClick(message.channel_id, button, dispatch),
     [MessageCardType.GAME]:  async (button: MessageTemplateButtonItem) =>
-      handleAnswerClick(button, dispatch),
+      handleAnswerClick(button, message, dispatch),
   }
 
   const handleClickToButtons = async (button: MessageTemplateButtonItem): Promise<void> => {

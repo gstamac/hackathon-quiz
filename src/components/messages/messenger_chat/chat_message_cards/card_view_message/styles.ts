@@ -37,7 +37,7 @@ export const useCardViewStyles = makeStyles((theme: Theme) => ({
   cardViewIcon: {
     width: '40px',
     height: '40px',
-    border: `1.5px solid ${theme.palette.customColors.brightGray}`,
+    border: (props: AuthorProps) => props.isAuthor ? undefined : `1.5px solid ${theme.palette.customColors.brightGray}`,
     boxSizing: 'border-box',
     borderRadius: '50%',
     display: 'flex',

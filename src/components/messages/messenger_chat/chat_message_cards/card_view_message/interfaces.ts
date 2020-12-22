@@ -1,3 +1,4 @@
+import { MessageData } from './../../../../../store/interfaces'
 import { useCardViewStyles } from './styles'
 import { MessageCardElement, MessageTemplateButtonItem } from '@globalid/messaging-service-sdk'
 import { ButtonState } from 'globalid-react-ui'
@@ -19,7 +20,7 @@ export type CardViewMessageStyles = {
 }
 
 export interface CardViewMessageContentProps extends MessageCardElement, CardViewMessageStyles {
-  channelId: string
+  message: MessageData
 }
 
 export type CardViewButtonsType = (

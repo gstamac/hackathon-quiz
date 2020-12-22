@@ -16,7 +16,7 @@ export const CardViewMessageCard: React.FC<BaseMessageCardProps<MessageData>> = 
 
   return (
     <MessageContextController {...props}>
-      <CardViewMessageContent classes={classes} channelId={props.messageContext.message.channel_id} {...elements}/>
+      <CardViewMessageContent classes={classes} message={props.messageContext.message}{...elements}/>
     </MessageContextController>
   )
 }
