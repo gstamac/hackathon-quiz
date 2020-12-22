@@ -61,18 +61,6 @@ export class DeviceKeyManager implements IDeviceKeyManager {
 
   generateKeyPair = async (): Promise<DeviceKeyPair> => this.queue.add(async () => {
     try {
-      if (!this.isInitialized){
-        await this.init()
-      }
-
-      if (this.deviceId){
-        const keyPair: DeviceStoreData | undefined = await getDeviceKey(this.deviceId)
-
-        if (keyPair){
-          return keyPair
-        }
-      }
-
       const { publicKey, privateKey } = await rsa.generateKeyPair(RSA_KEY_SIZE)
 
       const unextractablePrivateKey: CryptoKey = await toUnextractable(privateKey)

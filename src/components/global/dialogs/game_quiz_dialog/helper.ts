@@ -32,6 +32,7 @@ export const submitGameForm
 
         const game: CreateGameDto = {
           name: channel.title ?? '',
+          channel_id: channel.id,
           access_token: '',
           questions,
         }
