@@ -67,12 +67,25 @@ interface GameJsonAnswer {
 
 type GameJson = GeneralObject<GameJsonQuestion | undefined>
 
-const isJsonArgument = (arg: string): boolean => arg === '-json'
+const JsonArgumentRegex: RegExp = /-json ({.*})/
 
-const getJsonArgumentData = (args: string[]): GameJson | null => {
-  if (isJsonArgument(args[0]) && args[1] !== undefined) {
+const getJsonArgument = (command: string): string | null => {
+  const match: RegExpExecArray | null = JsonArgumentRegex.exec(command)
+
+  console.log('match', match)
+
+  if (match !== null && match[1] !== undefined) {
+    return match[1]
+  }
+
+  return null
+}
+
+const getJsonArgumentData = (command: string): GameJson | null => {
+  const jsonArgument: string | null = getJsonArgument(command)
+  if (jsonArgument !== null) {
     try {
-      const gameJson: GameJson = JSON.parse(args[1])
+      const gameJson: GameJson = JSON.parse(jsonArgument)
 
       return gameJson
     } catch (err) {
@@ -135,32 +148,24 @@ interface GameCommandParams {
   json: InternalFormData
 }
 
-const getExtraParams = (commandWithParams: string[]): GameCommandParams | null => {
-  if (commandWithParams.length > 1) {
-    const [command, ...args]: string[] = commandWithParams
+const getExtraParams = (command: string): GameCommandParams | null => {
+  const jsonData: GameJson | null = getJsonArgumentData(command)
 
-    if (command === Command.GAME) {
-      const jsonData: GameJson | null = getJsonArgumentData(args)
+  if (jsonData !== null) {
+    try {
+      
+      const formJson = jsonDataToFormData(jsonData)
 
-      if (jsonData !== null) {
-        try {
-          
-          const formJson = jsonDataToFormData(jsonData)
-
-          return {
-            json: formJson,
-          }
-        } catch (err) {
-          return null
-        }
+      return {
+        json: formJson,
       }
+    } catch (err) {
+      return null
     }
   }
-
+  
   return null
 }
-
-
 
 const isString = (x: string | File): x is string => typeof x === 'string'
 
@@ -172,13 +177,13 @@ export const sentMessage = (channel_id: string, gid_uuid: string, encryptedChann
       if (isCommand(data)){
         const command = data.replace('/', '')
 
-        const commandWithParams: string[] = command.split(' ')
+        const [commandAction]: string[] = command.split(' ')
 
-        if (isValidCommand(commandWithParams[0])){
-          if (commandWithParams[0] === Command.GAME){
+        if (isValidCommand(commandAction)){
+          if (commandAction === Command.GAME) {
             const channel = (store.getState()).channels.channels[channel_id]?.channel
 
-            const extraParams: GameCommandParams | null = getExtraParams(commandWithParams)
+            const extraParams: GameCommandParams | null = getExtraParams(command)
 
             if (extraParams !== null && dispatch !== undefined) {
               submitGameForm(channel, dispatch)(extraParams.json)
@@ -191,7 +196,7 @@ export const sentMessage = (channel_id: string, gid_uuid: string, encryptedChann
               store.dispatch(openGameForm({key: channel_id, value: true}))
             }
           }
-          if(commandWithParams[0] === Command.HIGH_SCORES){
+          if(commandAction === Command.HIGH_SCORES){
             await getHighScores(channel_id)
           }
 
