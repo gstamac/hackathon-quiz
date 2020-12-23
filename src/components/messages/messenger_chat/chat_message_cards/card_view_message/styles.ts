@@ -64,11 +64,13 @@ export const useCardViewStyles = makeStyles((theme: Theme) => ({
   primaryButtonDisabled: {
     backgroundColor: `#129573!important`,
     width: '100%',
+    lineHeight: '1',
   },
   secondaryButtonDisabled: {
     '&.MuiButton-containedSecondary.Mui-disabled': {
       backgroundColor: `#ff726f!important`,
       width: '100%',
+      lineHeight: '1',
     }
   },
   secondaryButton: {
