@@ -196,7 +196,7 @@ export const sentMessage = (channel_id: string, gid_uuid: string, encryptedChann
               store.dispatch(openGameForm({key: channel_id, value: true}))
             }
           }
-          if(commandWithParams[0] === Command.HIGH_SCORES){
+          if(commandAction === Command.HIGH_SCORES){
             await getHighScores(channel_id)
           }
 
