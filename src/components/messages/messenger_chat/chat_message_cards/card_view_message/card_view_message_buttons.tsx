@@ -9,9 +9,9 @@ export const CardViewPrimaryButton: React.FC<CardViewButtonProps> =
 
     const buttonProps: PrimaryButtonProps = {
       text: buttonElementsState.PRIMARY === ButtonState.INPROGRESS ? '' : button.title,
-      endIcon: buttonElementsState.PRIMARY === ButtonState.INPROGRESS ? '' :
+      endIcon: buttonElementsState.PRIMARY === ButtonState.INPROGRESS ||  buttonElementsState.PRIMARY === ButtonState.DISABLED ? '' :
         <img src={ArrowRightIcon} alt={'arrow-right'}/>,
-      className: buttonElementsState.PRIMARY === ButtonState.INPROGRESS ? classes.primaryButtonInProgress : classes.primaryButton,
+      className: buttonElementsState.PRIMARY === ButtonState.INPROGRESS ||  buttonElementsState.PRIMARY === ButtonState.DISABLED ? classes.primaryButtonInProgress : classes.primaryButton,
     }
 
     return (

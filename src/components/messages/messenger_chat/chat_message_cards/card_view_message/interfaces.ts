@@ -65,7 +65,11 @@ export interface CardViewButtonProps extends CardViewMessageStyles {
   buttonElementsState: ButtonElementsState
 }
 
-export interface MessageTemplateCardViewExt extends MessageTemplateCardView{
+export interface MessageCardElementExt extends MessageCardElement {
   disabled?: boolean
   countdown_seconds?: number
+}
+
+export interface MessageTemplateCardViewExt extends Omit<MessageTemplateCardView,'elements'>{
+  elements: MessageCardElementExt
 }
