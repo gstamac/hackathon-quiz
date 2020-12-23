@@ -1,7 +1,7 @@
 import React from 'react'
 import { CardViewButtonsType, CardViewMessageButtonsWrapperProps, ButtonTypes } from './interfaces'
 import { MessageTemplateButtonItem } from '@globalid/messaging-service-sdk'
-import { CardViewPrimaryButton, CardViewSecondaryButton } from './card_view_message_buttons'
+import { CardViewPrimaryButton, CardViewSecondaryButton, CardViewAdditionalButton } from './card_view_message_buttons'
 
 export const CardViewMessageButtonsWrapper: React.FC<CardViewMessageButtonsWrapperProps> = (
   { buttons, ...rest }: CardViewMessageButtonsWrapperProps
@@ -10,7 +10,7 @@ export const CardViewMessageButtonsWrapper: React.FC<CardViewMessageButtonsWrapp
   const cardViewButtonsMap: Map<ButtonTypes, CardViewButtonsType> = new Map([
     [ButtonTypes.PRIMARY, (button: MessageTemplateButtonItem) => <CardViewPrimaryButton button={button} {...rest} />],
     [ButtonTypes.SECONDARY, (button: MessageTemplateButtonItem) => <CardViewSecondaryButton button={button} {...rest} />],
-    [ButtonTypes.ADDITIONAL, (button: MessageTemplateButtonItem) => <CardViewPrimaryButton button={button} {...rest} />],
+    [ButtonTypes.ADDITIONAL, (button: MessageTemplateButtonItem) => <CardViewAdditionalButton button={button} {...rest} />],
   ])
 
   const buttonElements: JSX.Element[] | undefined = buttons?.map(

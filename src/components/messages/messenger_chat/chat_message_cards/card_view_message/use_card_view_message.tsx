@@ -43,6 +43,10 @@ const updateCard = (message: MessageData): void => {
     elements: {
       ...content.elements,
       disabled: true,
+      buttons: content.elements.buttons?.map(x=>({
+        ...x,
+        mode: 'ADDITIONAL'
+      })) ?? []
     }
   }
 
