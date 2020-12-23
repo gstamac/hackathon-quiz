@@ -1,3 +1,4 @@
+import { getHighScores } from './../../../../services/api/game_api';
 import { KeyEvent } from './../../../../constants'
 import { useState, KeyboardEvent, ChangeEvent, useEffect, useRef, useCallback, RefObject } from 'react'
 import { Theme, useTheme } from '@material-ui/core'
@@ -49,7 +50,8 @@ const createStates = (theme: Theme): MessageStates => {
 }
 
 enum Command {
-  GAME = 'game'
+  GAME = 'game',
+  HIGH_SCORES = 'highscores'
 }
 
 const isValidCommand = (command: string): command is Command => Object.values(Command).includes(<Command> command)
@@ -193,6 +195,9 @@ export const sentMessage = (channel_id: string, gid_uuid: string, encryptedChann
 
               store.dispatch(openGameForm({key: channel_id, value: true}))
             }
+          }
+          if(commandWithParams[0] === Command.HIGH_SCORES){
+            await getHighScores(channel_id)
           }
 
           return true

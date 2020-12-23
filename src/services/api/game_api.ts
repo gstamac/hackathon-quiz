@@ -44,3 +44,9 @@ export const postAnswer = async (link: string): Promise<any> => {
     `${link}${participant}`,
   )
 }
+
+export const getHighScores = async (channelId: string)=>{
+  return axios.post<CreateGameDto>(
+    `${BASE_GAME_API_URL}/highscores/${channelId}`,
+  )
+}
