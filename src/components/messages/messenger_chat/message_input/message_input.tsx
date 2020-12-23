@@ -4,7 +4,7 @@ import { TextField, SvgIcon, Fade, InputAdornment, InputProps } from '@material-
 import { sendMessageIcon } from '../../../global/icons'
 import { useStyles } from './style'
 import { useMessageInput, sentMessage } from './use_message_input'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { getEncryptedChannelSecret } from '../../../../store/selectors'
 import PickImageIcon from '../../../../assets/icons/pick_image_icon.svg'
 import PickImageIconDisabled from '../../../../assets/icons/pick_image_disabled_icon.svg'
@@ -22,7 +22,9 @@ export const MessageInput: React.FC<MessageInputProps> = (props: MessageInputPro
 
   const inputReference: React.RefObject<HTMLInputElement> = useRef<HTMLInputElement>(null)
 
-  const onInputSendClick = sentMessage(channel_id, rest.gid_uuid, encryptedChannelSecret)
+  const dispatch = useDispatch()
+
+  const onInputSendClick = sentMessage(channel_id, rest.gid_uuid, encryptedChannelSecret, dispatch)
 
   const {
     message,

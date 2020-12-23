@@ -14,10 +14,10 @@ import { submitGameForm } from './helper'
 import { useStyles } from './styles'
 
 const quiz: CustomFieldDefinition<{}> = {
-  question_0: ['is_required'],
-  option_0_0: [],
-  option_0_1: [],
-  option_0_2: [],
+  question_0: ['is_required', ['maxLength', '200']],
+  option_0_0: [['maxLength', '30']],
+  option_0_1: [['maxLength', '30']],
+  option_0_2: [['maxLength', '30']],
   check_0_0: [],
   check_0_1: [],
   check_0_2: [],
@@ -88,7 +88,7 @@ export const GameQuizDialog: React.FC = () => {
 
       return {
         ...o,
-        [optionKey]: [],
+        [optionKey]: [['maxLength', '30']],
         [checkboxKey]: [],
       }
     }, {})
@@ -97,8 +97,8 @@ export const GameQuizDialog: React.FC = () => {
 
     updateMultipleValidators(formId, {
       ...validators,
-      [questionKey]: ['is_required'],
-    })
+      [questionKey]: ['is_required', ['maxLength', '200']],
+    } as CustomFieldDefinition<{}>)
 
     partiallyUpdateValueObject(formId, questionKey, {
       failed_validators: [],

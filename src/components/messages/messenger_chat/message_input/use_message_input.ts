@@ -6,14 +6,16 @@ import { throttle } from 'lodash'
 import { MIN_IMAGE_SIZE_BYTES, IMAGE_PNG, IMAGE_JPEG } from '../../../../constants'
 import { Dispatch } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
-import { setToastError } from 'globalid-react-ui'
+import { FormValue, InternalFormData, InternalFormValues, setToastError } from 'globalid-react-ui'
 import { ChannelWithParticipantsAndParsedMessage } from '../../../../store/interfaces'
-import { RootState } from 'RootType'
+import { RootState, ThunkDispatch } from 'RootType'
 import { trimTextLeftAndRightSideWhiteSpaces } from './helpers'
 import { getString, sendImageToChannel, sendMessageToChannel } from '../../../../utils'
 import { sendTypingNotification } from '../../../../services/api'
 import { store } from '../../../../store'
 import { openGameForm } from '../../../../store/ui_slice'
+import { GeneralObject } from '../../../../utils/interfaces'
+import { submitGameForm } from '../../../global/dialogs/game_quiz_dialog/helper'
 
 const createStates = (theme: Theme): MessageStates => {
   const { electricBlue, white, brightGray } = theme.palette.customColors
@@ -50,24 +52,140 @@ enum Command {
   GAME = 'game'
 }
 
-const isValidCommand = (command: string):command is Command => Object.values(Command).includes(<Command>command)
+const isValidCommand = (command: string): command is Command => Object.values(Command).includes(<Command> command)
+
+interface GameJsonQuestion {
+  question: string,
+  answers: GameJsonAnswer[]
+}
+interface GameJsonAnswer {
+  answer: string,
+  correct?: boolean
+}
+
+type GameJson = GeneralObject<GameJsonQuestion | undefined>
+
+const isJsonArgument = (arg: string): boolean => arg === '-json'
+
+const getJsonArgumentData = (args: string[]): GameJson | null => {
+  if (isJsonArgument(args[0]) && args[1] !== undefined) {
+    try {
+      const gameJson: GameJson = JSON.parse(args[1])
+
+      return gameJson
+    } catch (err) {
+      return null
+    }
+  }
+  
+  return null
+}
+
+const qRegex: RegExp = /^Q(\d*)$/
+
+const setField = (value: string | boolean): FormValue => ({
+  failed_validators: [],
+  has_changed: true,
+  messages: [],
+  value,
+})
+
+const jsonDataToFormData = (jsonData: GameJson): InternalFormData => {
+  return Object.keys(jsonData).reduce<InternalFormData>((formData: InternalFormData, questionKey: string) => {
+    if (qRegex.test(questionKey) && jsonData[questionKey] !== undefined) {
+      const formDataKey: string = questionKey.replace('Q', 'question_')
+      const questionNumber: string = formDataKey.split('_')[1]
+      const formDataValue: string = jsonData[questionKey]!.question
+
+      const questionField: FormValue = setField(formDataValue)
+
+      const answers: GameJsonAnswer[] = jsonData[questionKey]!.answers
+
+      const answerFields = answers.reduce<InternalFormValues>((values: InternalFormValues, answer: GameJsonAnswer, i: number) => {
+        const answerKey: string = `option_${questionNumber}_${i}`
+        const checkboxKey: string = `check_${questionNumber}_${i}`
+
+        return {
+          ...values,
+          [answerKey]: setField(answer.answer),
+          [checkboxKey]: setField(answer.correct ?? false),
+        }
+      }, {})
+
+      return {
+        ...formData,
+        values: {
+          ...formData.values,
+          ...answerFields,
+          [formDataKey]: questionField
+        }
+      }
+    }
+    
+    throw new Error('ERR_PARSING')
+  }, {
+    values: {},
+    fieldDefinition: {}
+  })
+}
+
+interface GameCommandParams {
+  json: InternalFormData
+}
+
+const getExtraParams = (commandWithParams: string[]): GameCommandParams | null => {
+  if (commandWithParams.length > 1) {
+    const [command, ...args]: string[] = commandWithParams
+
+    if (command === Command.GAME) {
+      const jsonData: GameJson | null = getJsonArgumentData(args)
+
+      if (jsonData !== null) {
+        try {
+          
+          const formJson = jsonDataToFormData(jsonData)
+
+          return {
+            json: formJson,
+          }
+        } catch (err) {
+          return null
+        }
+      }
+    }
+  }
+
+  return null
+}
+
+
 
 const isString = (x: string | File): x is string => typeof x === 'string'
 
 const isCommand = (x: string): boolean => x.startsWith('/')
 
-export const sentMessage = (channel_id: string, gid_uuid: string, encryptedChannelSecret?: string) =>
+export const sentMessage = (channel_id: string, gid_uuid: string, encryptedChannelSecret?: string, dispatch?: ThunkDispatch) =>
   async (data: string | File): Promise<boolean> => {
     if (isString(data)) {
       if (isCommand(data)){
         const command = data.replace('/', '')
 
-        if (isValidCommand(command)){
-          if (command === Command.GAME){
+        const commandWithParams: string[] = command.split(' ')
+
+        if (isValidCommand(commandWithParams[0])){
+          if (commandWithParams[0] === Command.GAME){
             const channel = (store.getState()).channels.channels[channel_id]?.channel
 
-            if (channel)
-            {
+            const extraParams: GameCommandParams | null = getExtraParams(commandWithParams)
+
+            if (extraParams !== null && dispatch !== undefined) {
+              submitGameForm(channel, dispatch)(extraParams.json)
+              
+              return true
+            }
+
+            if (channel) {
+
               store.dispatch(openGameForm({key: channel_id, value: true}))
             }
           }
