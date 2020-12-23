@@ -3,13 +3,14 @@ import { ButtonState } from 'globalid-react-ui'
 import React, { useEffect, useRef, useState } from 'react'
 import CameraIcon from '../../../../../assets/icons/camera-grey.svg'
 import GroupIcon from '../../../../../assets/icons/group_icon.svg'
-import GameIcon from '../../../../../assets/icons/icon-poll.svg'
+import GameIcon from '../../../../../assets/icons/quiz.svg'
 import mobileIcon from '../../../../../assets/icons/mobile-icon-white.svg'
 import { RejectInvitationDialog } from '../../../../global/dialogs/reject_invitation_dialog'
 import { retrieveMessageCardTypeFromButtons } from '../helpers'
 import { CardViewMessageButtonsWrapper } from './card_view_message_buttons_wrapper'
 import { ButtonElementsState, ButtonTypes, CardViewMessageContentProps, MessageCardType } from './interfaces'
 import { useCardViewMessage } from './use_card_view_message'
+import ReactHTMLParser from 'react-html-parser'
 const useInterval = (callback: ()=>void, delay: number): void => {
   const savedCallback = useRef<()=>void>()
 
@@ -88,13 +89,13 @@ export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({
         </div>}
       </div>
       {title_text && <div>
-        <span className={classes.titleAndSecondaryText}>{title_text}</span>
+        <span className={classes.titleAndSecondaryText}>{ReactHTMLParser(title_text)}</span>
       </div>}
       {primary_text && <div>
-        <span className={classes.primaryText}>{primary_text}</span>
+        <span className={classes.primaryText}>{ReactHTMLParser(primary_text)}</span>
       </div>}
       {secondary_text && <div>
-        <span className={classes.titleAndSecondaryText}>{secondary_text}</span>
+        <span className={classes.titleAndSecondaryText}>{ReactHTMLParser(secondary_text)}</span>
       </div>}
 
       <CardViewMessageButtonsWrapper classes={classes} buttons={buttons} onClick={handleClickToButtons}

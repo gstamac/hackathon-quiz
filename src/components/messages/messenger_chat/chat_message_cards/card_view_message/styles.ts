@@ -61,6 +61,16 @@ export const useCardViewStyles = makeStyles((theme: Theme) => ({
   primaryButtonInProgress: {
     width: '100%',
   },
+  primaryButtonDisabled: {
+    backgroundColor: `#129573!important`,
+    width: '100%',
+  },
+  secondaryButtonDisabled: {
+    '&.MuiButton-containedSecondary.Mui-disabled': {
+      backgroundColor: `#ff726f!important`,
+      width: '100%',
+    }
+  },
   secondaryButton: {
     backgroundColor: `${theme.palette.customColors.washedGrey}!important`,
     borderRadius: '22px',

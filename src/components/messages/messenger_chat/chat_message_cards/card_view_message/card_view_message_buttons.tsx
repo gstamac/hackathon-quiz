@@ -11,7 +11,11 @@ export const CardViewPrimaryButton: React.FC<CardViewButtonProps> =
       text: buttonElementsState.PRIMARY === ButtonState.INPROGRESS ? '' : button.title,
       endIcon: buttonElementsState.PRIMARY === ButtonState.INPROGRESS ||  buttonElementsState.PRIMARY === ButtonState.DISABLED ? '' :
         <img src={ArrowRightIcon} alt={'arrow-right'}/>,
-      className: buttonElementsState.PRIMARY === ButtonState.INPROGRESS ||  buttonElementsState.PRIMARY === ButtonState.DISABLED ? classes.primaryButtonInProgress : classes.primaryButton,
+      className: buttonElementsState.PRIMARY === ButtonState.INPROGRESS 
+      ? classes.primaryButtonInProgress 
+      : buttonElementsState.PRIMARY === ButtonState.DISABLED 
+        ? classes.primaryButtonDisabled
+        : classes.primaryButton,
     }
 
     return (
@@ -29,7 +33,7 @@ export const CardViewSecondaryButton: React.FC<CardViewButtonProps> = ({button, 
     variant='contained'
     color='secondary'
     disabled={buttonElementsState.SECONDARY === ButtonState.DISABLED}
-    className={classes.secondaryButton}
+    className={buttonElementsState.SECONDARY === ButtonState.DISABLED ? classes.secondaryButtonDisabled: classes.secondaryButton }
     onClick={() => onClick(button)}
   >
     {button.title}
