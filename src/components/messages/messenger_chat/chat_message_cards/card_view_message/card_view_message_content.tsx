@@ -81,16 +81,17 @@ export const CardViewMessageContent: React.FC<CardViewMessageContentProps> = ({
 
   return (
     <div className={classes.cardViewMessageContent}>
-      {icon && <div className={classes.cardViewIconWrapper}>
-        <div className={classes.cardViewIcon}>
+      <div className={classes.cardViewIconWrapper}>
+      {counter !== 0 && <div style={{width: '-webkit-fill-available'}} className={classes.primaryText}>{counter} seconds</div>}
+      {icon && <div className={classes.cardViewIcon}>
           <img src={rightSideIcon} alt={iconAltTextMap[messageCardType]} />
-        </div>
-      </div>}
+        </div>}
+      </div>
       {title_text && <div>
         <span className={classes.titleAndSecondaryText}>{title_text}</span>
       </div>}
       {primary_text && <div>
-        <span className={classes.primaryText}>{primary_text}&nbsp;{counter !== 0 ? `${counter} seconds` : undefined}</span>
+        <span className={classes.primaryText}>{primary_text}</span>
       </div>}
       {secondary_text && <div>
         <span className={classes.titleAndSecondaryText}>{secondary_text}</span>

@@ -40,7 +40,10 @@ const updateCard = (message: MessageData): void => {
 
   const newContent: MessageTemplateCardViewExt = {
     ...content,
-    disabled: true,
+    elements: {
+      ...content.elements,
+      disabled: true,
+    }
   }
 
   const newMessage: MessageData = {
